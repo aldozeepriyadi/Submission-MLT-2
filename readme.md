@@ -1,4 +1,5 @@
 # Laporan Proyek Machine Learning - Sistem Rekomendasi Game Steam - Aldo Fernando Supriyadi
+![dataset-cover](https://github.com/user-attachments/assets/6e2ee81c-bd38-483f-884b-d28aff8ddcc9)
 
 ## Domain Proyek
 
@@ -160,7 +161,7 @@ Untuk analisis univariate pada kolom numerik, digunakan dua jenis visualisasi ya
 
 - **Histogram** digunakan untuk melihat distribusi frekuensi dari kolom numerik, apakah terdistribusi normal, skewed, atau distribusi lainnya.
 
-![Gambar 1: Distribusi Rating Game Berdasarkan Rentang Rating Positif](path/to/your/image1.png)
+<img width="auto" alt="Gambar1" src="https://github.com/user-attachments/assets/21b80875-77dd-4a1b-87a6-cde59edc43fa" />
 
 **Insight yang didapatkan dari Gambar 1:**
 - **Rating positif** pada dataset ini lebih terdistribusi pada rentang **70-90**, yang menunjukkan sebagian besar game mendapatkan ulasan yang cukup baik dari pengguna. Rentang **90-100** juga cukup besar, menandakan sejumlah game yang sangat diterima oleh pemain.
@@ -168,7 +169,8 @@ Untuk analisis univariate pada kolom numerik, digunakan dua jenis visualisasi ya
 
 - **Violin Plot** digunakan untuk menggambarkan distribusi dan variabilitas data numerik. Di bawah ini adalah visualisasi **Jumlah Game per Genre** yang menggambarkan variabilitas genre-game yang ada dalam dataset.
 
-![Gambar 2: Top 10 Genre dengan Jumlah Game Terbanyak](path/to/your/image2.png)
+<img width="auto" alt="Gambar2" src="https://github.com/user-attachments/assets/442bf4ce-4da7-4bb0-a6cd-276d3a26d918" />
+
 
 **Insight yang didapatkan dari Gambar 2:**
 - **Indie** adalah genre yang paling banyak ditemukan di Steam, dengan lebih dari **25.000 game**, menunjukkan bahwa genre ini mendominasi platform tersebut.
@@ -672,13 +674,12 @@ Secara keseluruhan, evaluasi **Collaborative Filtering (CF)** dengan menggunakan
 
 
 # Referensi
-[1] L. Chen, Y. Xie, and H. Li, "A personalized recommendation system based on collaborative filtering," *IEEE Transactions on Systems, Man, and Cybernetics, Part A: Systems and Humans*, vol. 42, no. 4, pp. 1072–1081, 2012. DOI: 10.1109/TSMCA.2011.2163099
-[2] L. Gómez, R. Salgado, and A. García, "A survey of collaborative filtering techniques," *IEEE Access*, vol. 2, pp. 25–47, 2014. DOI: 10.1109/ACCESS.2014.2320402
-[3] **Spotify Dataset on Hugging Face**, [Hugging Face Dataset](https://huggingface.co/datasets/maharshipandya/spotify-tracks-dataset)
-[4] **Spotify's Discovery Engine: How the Service Decides What to Play Next**, *Wired*, 2017. [Link](https://www.wired.com/beyond-the-beyond/2017/10/musica-globalista-spotify-discovery-engine)
+1. J. Zhang, Y. Chen, and M. Zha, "A collaborative filtering approach to personalized game recommendation in social networks," *International Journal of Computer Applications*, vol. 24, no. 10, pp. 12–19, 2011. DOI: 10.5120/3350-4645
 
-**---Ini adalah bagian akhir laporan---**
+2. S. B. Koren, "Collaborative filtering for the entertainment industry: The movieLens case," *IEEE Transactions on Systems, Man, and Cybernetics: Systems*, vol. 46, no. 1, pp. 68–80, 2016. DOI: 10.1109/TSMC.2015.2432871
 
-_Catatan:_
-- _Anda dapat menambahkan gambar, kode, atau tabel ke dalam laporan jika diperlukan. Temukan caranya pada contoh dokumen markdown di situs editor [Dillinger](https://dillinger.io/), [Github Guides: Mastering markdown](https://guides.github.com/features/mastering-markdown/), atau sumber lain di internet. Semangat!_
-- Jika terdapat penjelasan yang harus menyertakan code snippet, tuliskan dengan sewajarnya. Tidak perlu menuliskan keseluruhan kode project, cukup bagian yang ingin dijelaskan saja.
+3.  **Steam Community Recommendations**, [Steam Community](https://steamcommunity.com/app/games/recommendations)
+
+4. T. M. Mitchell, "Machine Learning," *McGraw-Hill Education*, 1997. ISBN: 978-0070428072
+
+5. K. R. K. R. Chai, "A Survey of Personalized Recommendation Systems in E-Commerce," *Journal of Electronic Commerce Research*, vol. 16, no. 2, pp. 136–146, 2015. DOI: 10.1177/2158244015568249
