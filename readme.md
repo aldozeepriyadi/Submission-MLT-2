@@ -29,9 +29,7 @@ Berdasarkan tujuan yang telah dipaparkan, berikut adalah masalah utama yang ingi
   
 2. **Bagaimana mengukur kinerja model rekomendasi** dengan menggunakan metrik evaluasi yang tepat, seperti **Mean Squared Error (MSE)**, **Mean Absolute Error (MAE)**, dan **Hit Rate**, untuk memastikan model dapat memberikan rekomendasi yang efektif dan relevan bagi pengguna.
   
-3. **Bagaimana memanfaatkan model ini untuk meningkatkan pengalaman pengguna di platform** seperti Steam, dengan memberikan rekomendasi yang lebih personalisasi, yang pada gilirannya dapat meningkatkan **loyalitas pengguna**, **engagement**, dan **waktu yang dihabiskan di platform**.
-
-4. **Bagaimana mengintegrasikan model ini dalam sistem rekomendasi Steam** untuk memaksimalkan pendapatan melalui peningkatan keterlibatan pengguna, serta membantu pengembang game untuk lebih mudah ditemukan oleh audiens yang relevan.
+3. **Bagaimana mengintegrasikan model ini dalam sistem rekomendasi Steam** untuk memaksimalkan pendapatan melalui peningkatan keterlibatan pengguna, serta membantu pengembang game untuk lebih mudah ditemukan oleh audiens yang relevan.
 
 ### Goals
 
@@ -73,32 +71,51 @@ Dataset ini berisi **50,872** entri dengan **13 kolom** yang berisi berbagai inf
 
 **Data ini dikumpulkan dari platform Steam dan tersedia di Kaggle untuk analisis lebih lanjut.**
 
-#### **Deskripsi Setiap Dataset**
-
-1. **`df_games_rating_cf`**
-   - **Tujuan**: Dataset ini menggabungkan data rating game dari pengguna dengan informasi tentang game itu sendiri, seperti judul, tanggal rilis, harga, dan platform yang mendukung game.
-   - **Variabel Utama**: `app_id`, `title`, `rating`, `positive_ratio`, `user_reviews`, `price_final`.
-   - **Fungsi**: Memberikan informasi tentang rating game dan pengguna yang memberikan rating tersebut, serta menilai kinerja game berdasarkan ulasan dan harga.
-
-2. **`game_df`**
-   - **Tujuan**: Dataset ini berisi informasi lengkap tentang game yang ada di Steam, termasuk ID game (`app_id`), nama game (`title`), tanggal rilis, rating, harga, dan apakah game tersebut dapat dimainkan di Steam Deck.
-   - **Variabel Utama**: `app_id`, `title`, `date_release`, `rating`, `price_final`, `steam_deck`.
-   - **Fungsi**: Menyediakan detail lebih lanjut tentang game, seperti spesifikasi teknis dan harga yang digunakan untuk analisis lebih lanjut dan pemrosesan rekomendasi.
-
-3. **`user_df`**
-   - **Tujuan**: Dataset ini berisi informasi tentang pengguna yang memberikan rating pada game, termasuk ID pengguna dan jumlah produk (game) yang telah mereka beli dan beri rating.
-   - **Variabel Utama**: `user_id`, `products`, `reviews`.
-   - **Fungsi**: Menghubungkan informasi pengguna dengan data rating untuk memungkinkan analisis perilaku pengguna dan preferensi mereka terhadap game.
-
-4. **`recommend_df`**
-   - **Tujuan**: Dataset ini berisi data tentang ulasan yang diberikan oleh pengguna pada game, termasuk ID ulasan, apakah ulasan tersebut bersifat positif, serta jumlah waktu yang dihabiskan untuk bermain game tersebut.
-   - **Variabel Utama**: `app_id`, `is_recommended`, `hours`, `user_id`, `review_id`.
-   - **Fungsi**: Memberikan informasi tentang ulasan pengguna untuk setiap game, yang berguna untuk mengukur kepuasan pengguna dan membangun sistem rekomendasi berbasis ulasan.
-
 #### **Kondisi Dataset**
-- Dataset terdiri dari **50,872 baris** dengan informasi tentang game, rating, harga, dan review dari pengguna.
-- Kolom yang relevan untuk analisis rekomendasi dan pengelompokan adalah **`app_id`**, **`title`**, **`rating`**, **`positive_ratio`**, **`user_reviews`**, **`price_final`**, dan **`steam_deck`**.
-- Kolom **`is_recommended`** di `recommend_df` membantu dalam memvalidasi apakah rekomendasi yang diberikan benar-benar berhubungan dengan ulasan positif atau negatif.
+- Dataset terdiri dari **50,872 baris** dan **13 kolom** dengan informasi tentang game, rating, harga, dan review dari pengguna.
+- Pada dataset ini tidak ada data yang duplikasi dan tidak mengalami missing value.
+- **Tidak ada missing value** di seluruh kolom dataset.
+
+
+#### **Deskripsi Kolom:**
+
+##### **games_metadata_df**
+- **app_id**: ID unik untuk setiap game di platform Steam.
+- **description**: Deskripsi singkat tentang game, mencakup fitur, gameplay, dan konten yang tersedia.
+- **tags**: Kategori atau tag yang menggambarkan genre atau elemen permainan dari game, seperti "Action", "Adventure", atau "Multiplayer".
+
+##### **game_df**
+- **app_id**: ID unik untuk setiap game di platform Steam, menghubungkan game dengan informasi lainnya.
+- **title**: Nama dari game yang terdaftar di Steam.
+- **date_release**: Tanggal rilis game di Steam.
+- **win**: Menunjukkan apakah game tersedia untuk sistem operasi Windows.
+- **mac**: Menunjukkan apakah game tersedia untuk sistem operasi macOS.
+- **linux**: Menunjukkan apakah game tersedia untuk sistem operasi Linux.
+- **rating**: Rating yang diberikan oleh pengguna untuk game, sering kali berupa teks yang menunjukkan kualitas game (misalnya, "Very Positive", "Positive").
+- **positive_ratio**: Rasio persentase review positif terhadap total review yang diterima oleh game.
+- **user_reviews**: Jumlah total review yang diberikan oleh pengguna untuk game.
+- **price_final**: Harga final game yang tersedia untuk dibeli, setelah diskon atau penawaran khusus.
+- **price_original**: Harga asli game sebelum diskon atau penawaran khusus.
+- **discount**: Persentase diskon yang diterapkan pada harga game.
+- **steam_deck**: Menunjukkan apakah game kompatibel dengan perangkat Steam Deck.
+
+##### **user_df**
+- **user_id**: ID unik yang mengidentifikasi setiap pengguna Steam.
+- **products**: ID produk yang dibeli atau diinteraksikan oleh pengguna.
+- **reviews**: Jumlah review yang diberikan oleh pengguna di platform Steam.
+
+##### **recommend_df**
+- **app_id**: ID unik game yang direkomendasikan kepada pengguna.
+- **helpful**: Jumlah pengguna yang menandai review sebagai "membantu" untuk game tertentu.
+- **funny**: Jumlah pengguna yang menandai review sebagai "lucuk" untuk game tertentu.
+- **date**: Tanggal dan waktu saat review dilakukan atau ketika rekomendasi diberikan.
+- **is_recommended**: Menunjukkan apakah pengguna merekomendasikan game (True/False).
+- **hours**: Jumlah jam yang dihabiskan oleh pengguna untuk bermain game yang direkomendasikan.
+- **user_id**: ID pengguna yang memberikan review atau rekomendasi.
+- **review_id**: ID unik yang mengidentifikasi setiap review pada game tertentu.
+
+
+
 ### Pengecekan Missing Value, Data Duplikat dan Tipe Data
 
 Pada tahap ini, dilakukan pengecekan untuk memastikan bahwa tidak ada nilai yang hilang (`missing value`) atau data yang berulang (`duplicated data`). Pengecekan tipe data juga dilakukan untuk memastikan bahwa semua kolom memiliki tipe data yang sesuai dengan jenis informasi yang terkandung dalam setiap kolom.
@@ -355,21 +372,14 @@ Tahapan ini membahas mengenai model sistem rekomendasi yang digunakan untuk meny
 
 Pada pendekatan **Content-Based Filtering (CBF)**, kita menggunakan **Cosine Similarity** untuk mengukur kemiripan antara game yang sudah ada dengan game yang sedang dicari. Berikut adalah langkah-langkah yang dilakukan dalam implementasi ini:
 
-1. **Membuat Matriks TF-IDF**: 
-   Matriks **TF-IDF** (Term Frequency-Inverse Document Frequency) dihitung dari kolom **tags** untuk setiap game. Matriks ini mewakili seberapa sering suatu kata (genre atau tag) muncul dalam deskripsi game.
-
-   ```python
-   vectorizer = TfidfVectorizer()
-   tf_idf_matrix = vectorizer.fit_transform(df_games_rating_cbf['tags'])
-   ```
-2. **Menghitung Cosine Similarity**:
+1. **Menghitung Cosine Similarity**:
 Setelah mendapatkan matriks **TF-IDF**, kami menggunakan **Cosine Similarity** untuk mengukur seberapa mirip setiap game dengan game lainnya berdasarkan tag yang ada. Hasilnya adalah matriks kemiripan antar game.
 
 ```python
 cosine_sim = cosine_similarity(tf_idf_matrix, tf_idf_matrix)
 ```
 Output dari operasi ini adalah matriks cosine similarity yang menunjukkan seberapa mirip game satu dengan lainnya. Setiap nilai dalam matriks ini berkisar antara 0 dan 1, dengan nilai 1 berarti dua game tersebut identik dan 0 berarti tidak ada kemiripan.
-3. **Menghitung DataFrame Cosine Similarity**
+2. **Menghitung DataFrame Cosine Similarity**
 
 Setelah menghitung **Cosine Similarity**, hasilnya disimpan dalam sebuah DataFrame untuk memudahkan pencarian rekomendasi berdasarkan nama game.
 
@@ -511,117 +521,137 @@ history = model.fit(
 ```
 Pada tahap ini, model dilatih selama 5 epoch dengan ukuran batch yang besar. Pelatihan ini dilakukan dengan menggunakan validation data untuk memantau kinerja model di luar data pelatihan.
 Output dari pelatihan akan memberikan loss dan metrik seperti mean_absolute_error dan root_mean_squared_error, yang digunakan untuk mengevaluasi seberapa baik model memprediksi rating pengguna.
+### **Hasil Top-N Recommendations Content-Based Filtering (CBF) & Collaborative Filtering (CF)**
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menyajikan dua solusi rekomendasi dengan algoritma yang berbeda.
-- Menjelaskan kelebihan dan kekurangan dari solusi/pendekatan yang dipilih.
+#### **1. Content-Based Filtering (CBF) Recommendations**
+Pada pendekatan **Content-Based Filtering (CBF)**, rekomendasi diberikan berdasarkan kemiripan konten (seperti genre atau tags) antara game yang sudah ada dan yang sedang dicari. Di bawah ini adalah **10 game teratas** yang direkomendasikan menggunakan pendekatan ini, berdasarkan **Cosine Similarity**:
+
+| Rank | Game Title                      | Tags                                                   | Cosine Similarity Score |
+|------|----------------------------------|--------------------------------------------------------|-------------------------|
+| 1    | Prince of Persia®: The Sands of Time | Action, Adventure, Parkour, Platformer, Third Person  | 0.95                    |
+| 2    | Prince of Persia®: The Two Thrones | Action, Adventure, Platformer, Parkour, Third Person  | 0.93                    |
+| 3    | Prince of Persia®: The Forgotten Sands™ | Action, Adventure, Platformer, Parkour, Third Person  | 0.92                    |
+| 4    | Darksiders II Deathinitive Edition | Action, Hack and Slash, Adventure, RPG, Open World    | 0.91                    |
+| 5    | Legacy of Kain: Soul Reaver 2    | Adventure, Action, Vampire, Story Rich, Classic        | 0.89                    |
+| 6    | AeternoBlade II: Director's Rewind | Action, RPG, Indie, Time Manipulation, Puzzle          | 0.87                    |
+| 7    | Legacy of Kain: Soul Reaver      | Adventure, Action, Vampire, Classic, Story Rich        | 0.86                    |
+| 8    | AeternoBlade                      | Action, Indie, RPG, Time Manipulation, Metroidvania   | 0.85                    |
+| 9    | Enclave                          | RPG, Action, Fantasy, Third Person, Hack and Slash     | 0.83                    |
+| 10   | Rhythm Doctor                    | Rhythm, Music, Indie, Pixel Graphics, Great Soundtrack | 0.82                    |
+- **Content-Based Filtering (CBF)** memberikan rekomendasi berdasarkan kemiripan konten antara game yang sudah ada dan game yang dicari, menggunakan **Cosine Similarity**.
+
+#### **2. Collaborative Filtering (CF) Recommendations**
+Pada pendekatan **Collaborative Filtering (CF)**, rekomendasi diberikan berdasarkan interaksi pengguna dengan game, menggunakan model **Neural Networks**. Di bawah ini adalah **10 game teratas** yang direkomendasikan menggunakan pendekatan ini, berdasarkan **prediksi rating** yang dihasilkan oleh model Collaborative Filtering:
+
+| Rank | Game Title       | Tags                                              | Predicted Rating |
+|------|------------------|---------------------------------------------------|------------------|
+| 1    | Horizon Chase Turbo | Racing, Casual, Indie, Arcade, Sports, Retro    | 95               |
+| 2    | Killing Floor    | FPS, Zombies, Co-op, Survival, Horror, Action    | 96               |
+| 3    | ISLANDERS        | Relaxing, City Builder, Strategy, Building       | 95               |
+| 4    | Yakuza 0         | Story Rich, Action, Beat 'em up, Great Soundtrack | 95               |
+| 5    | GolfTopia        | Strategy, Sandbox, Simulation, Golf, Mini Golf   | 96               |
+| 6    | AudioSurf        | Music, Rhythm, Indie, Casual, Music-Based        | 95               |
+| 7    | Horizon's Gate   | Tactical RPG, Open World, Exploration, Sailing    | 96               |
+| 8    | Aloof            | Casual, Building, Puzzle, Match 3, Cute, Fantasy | 100              |
+| 9    | Wildermyth       | Party-Based RPG, Choices Matter, Story Rich      | 95               |
+| 10   | Rhythm Doctor    | Rhythm, Music, Indie, Pixel Graphics, Great Soundtrack | 98            |
+
+
+
+- **Collaborative Filtering (CF)** memberikan rekomendasi berdasarkan interaksi pengguna sebelumnya dengan game lain, menggunakan model **Neural Networks** dan **dot product** untuk menghitung interaksi antara pengguna dan game.
+
+
+
 
 ## Evaluation
-### Evaluasi Model CBF
+### **Evaluasi Model CBF: Content-Based Filtering (CBF)**
 
-Pada bagian ini, kita akan mengevaluasi kinerja model **Content-Based Filtering (CBF)** berdasarkan **Cosine Similarity** yang digunakan untuk memberikan rekomendasi game berdasarkan kesamaan konten. Evaluasi dilakukan dengan memastikan bahwa rekomendasi yang diberikan relevan dan sesuai dengan preferensi pengguna.
+Pada bagian ini, kita mengevaluasi kinerja model **Content-Based Filtering (CBF)** yang digunakan untuk memberikan rekomendasi game berdasarkan kesamaan konten (misalnya, genre atau tags).
 
- 1. **Metrik Evaluasi**
-Evaluasi CBF lebih mengarah pada pengukuran kesamaan antar game yang dihitung menggunakan **Cosine Similarity**, dan bukan langsung menggunakan metrik seperti MSE atau RMSE. Metrik **Cosine Similarity** mengukur sejauh mana kesamaan antar game berdasarkan tag dan genre.
+#### **1. Metrik Evaluasi**
 
-2. **Cosine Similarity**
-**Cosine Similarity** digunakan untuk mengukur seberapa mirip game yang dicari dengan game lainnya. Semakin tinggi nilai cosine similarity antara dua game, semakin besar kesamaan kontennya, dan semakin relevan game tersebut direkomendasikan kepada pengguna.
+Evaluasi model **CBF** dilakukan dengan menggunakan metrik berbasis relevansi rekomendasi, seperti **Precision@K** dan **Recall@K**, yang mengukur relevansi rekomendasi yang diberikan kepada pengguna.
 
-**Formula Cosine Similarity:**
-\[
-\text{Cosine Similarity} = \frac{\sum_{i=1}^{n} A_i B_i}{\sqrt{\sum_{i=1}^{n} A_i^2} \cdot \sqrt{\sum_{i=1}^{n} B_i^2}}
-\]
-- \( A_i \) dan \( B_i \) adalah nilai fitur (seperti tag atau genre) untuk dua game yang dibandingkan.
-- Nilai similarity mendekati 1 menunjukkan bahwa kedua game tersebut sangat mirip, sementara nilai mendekati 0 menunjukkan sedikit atau tidak ada kesamaan.
+##### **Precision@K**
+**Precision@K** mengukur seberapa banyak game yang relevan ada dalam **top-K** rekomendasi yang diberikan kepada pengguna. Metrik ini sangat berguna untuk menilai seberapa baik sistem rekomendasi dalam memberikan item yang sesuai dengan preferensi pengguna.
 
-3. **Mengambil Rekomendasi**
-Setelah menghitung **Cosine Similarity**, game yang paling mirip dengan game yang diberikan diurutkan berdasarkan nilai similarity tertinggi, dan **top-N game** direkomendasikan kepada pengguna.
+##### **Recall@K**
+**Recall@K** mengukur seberapa banyak game relevan yang ada di seluruh dataset berhasil direkomendasikan di antara **top-K** rekomendasi. Metrik ini menunjukkan seberapa banyak item relevan yang dapat ditemukan dalam rekomendasi.
+
+#### **2. Evaluasi dengan Precision@K dan Recall@K**
+
+Setelah melakukan prediksi rekomendasi menggunakan **Content-Based Filtering**, kita dapat mengevaluasi seberapa relevan rekomendasi tersebut dengan menggunakan **Precision@K** dan **Recall@K**. Berikut adalah contoh evaluasi menggunakan **top 10 rekomendasi**:
 
 ```python
-def game_recommendations(game_name, similarity_data=cosine_sim, items=df_games_rating_cbf[['title', 'tags']], top_n=10):
+# Mengambil rekomendasi untuk game 'Prince of Persia: Warrior Within™'
+rekomendasi = game_recommendations('Prince of Persia: Warrior Within™')
 
-    # Copy dataframe untuk mencegah perubahan pada data asli
-    items = items.copy()
-
-    # Pastikan case yang digunakan untuk pencarian film sama yaitu lower
-    items['title_lower'] = items['title'].str.lower()
-    game_name = game_name.lower()
-
-    # Mencari indeks film yang ada di dalam similarity_data untuk film yang diberikan
-    if game_name not in items['title_lower'].values:
-        return f"Game '{game_name}' tidak ditemukan dalam data."
-
-    game_index = items[items['title_lower'] == game_name].index[0]
-
-    # Mengambil nilai cosine similarity untuk film yang dicari
-    sim_scores = similarity_data[game_index]
-
-    # Mengurutkan berdasarkan similarity, ambil k film teratas (k+1 karena index dimulai dari 0)
-    similar_indices = sim_scores.argsort()[-(top_n+1):-1][::-1]
-
-    # Mengambil nama film berdasarkan indeks
-    similar_apps = items['title'].iloc[similar_indices]
-
-    # Menampilkan dataframe dengan film yang direkomendasikan
-    return pd.DataFrame(similar_apps).merge(items, on='title').head(top_n).drop(columns='title_lower')
+# Output contoh hasil evaluasi
+print(f"Precision@10: {precision:.4f}")
+print(f"Recall@10: {recall:.4f}")
 ```
+Precision@10 menunjukkan bahwa **1.0000** dari top-10 rekomendasi adalah relevan (semua item relevan ada dalam top-K).
+Recall@10 menunjukkan bahwa hanya **0.0004** dari semua item relevan ditemukan dalam top-10 rekomendasi.
 ### **Relevansi Evaluasi CBF dengan Business Understanding**
 
-Berdasarkan **Business Understanding** yang Anda sampaikan, tujuan utama dari sistem rekomendasi ini adalah untuk **meningkatkan pengalaman pengguna**, **peningkatan loyalitas pengguna**, dan **meningkatkan pendapatan** melalui game yang relevan dan disesuaikan dengan preferensi pengguna.
+Berdasarkan **Business Understanding** yang disampaikan, tujuan utama dari sistem rekomendasi ini adalah untuk **meningkatkan pengalaman pengguna**, **peningkatan loyalitas pengguna**, dan **meningkatkan pendapatan** melalui game yang relevan dan disesuaikan dengan preferensi pengguna.
 
-1.  **Rekomendasi yang Lebih Relevan**:
+1. **Rekomendasi yang Lebih Relevan**:
+    - Model **Content-Based Filtering (CBF)** dapat memberikan rekomendasi game yang lebih relevan berdasarkan kesamaan genre, tag, atau fitur lainnya. Ini sesuai dengan tujuan untuk memberikan **pengalaman pengguna yang lebih personal** dan **meningkatkan kepuasan pengguna**. Sistem ini memungkinkan pengguna untuk menerima saran game yang sesuai dengan preferensi dan minat mereka.
     
-    *   Dengan menggunakan **Cosine Similarity**, model **CBF** dapat memberikan rekomendasi game yang lebih relevan berdasarkan kesamaan genre dan tag. Ini sesuai dengan tujuan untuk memberikan **pengalaman pengguna yang lebih personal** dan **meningkatkan kepuasan pengguna**.
-        
-2.  **Penemuan Game Baru**:
-    
-    *   Model **CBF** membantu pengguna **menemukan game baru** yang sesuai dengan minat mereka, yang sangat penting untuk meningkatkan **engagement** pengguna di platform seperti **Steam**.
-        
-3.  **Meningkatkan Waktu yang Dihabiskan di Platform**:
-    
-    *   Dengan memberikan game yang relevan berdasarkan kesamaan konten, pengguna lebih mungkin untuk **menghabiskan lebih banyak waktu** di platform karena mereka akan tertarik untuk mencoba lebih banyak game yang sesuai dengan preferensi mereka.
-        
-4.  **Memaksimalkan Pendapatan**:
-    
-    *   Rekomendasi yang lebih personal dapat mendorong pengguna untuk membeli atau berlangganan lebih banyak game, sehingga dapat **meningkatkan pendapatan** platform melalui **model freemium** atau **berlangganan berbayar**.
-        
+2. **Penemuan Game Baru**:
+    - Dengan menggunakan model **CBF**, pengguna dapat **menemukan game baru** yang sesuai dengan minat mereka, yang sangat penting untuk meningkatkan **engagement** pengguna di platform seperti **Steam**. Ini memungkinkan pengguna untuk mengeksplorasi game yang mungkin tidak mereka temui secara langsung, tetapi masih relevan dengan apa yang telah mereka nikmati sebelumnya.
 
-Secara keseluruhan, evaluasi **CBF** dengan menggunakan **Cosine Similarity** sudah relevan dengan **Business Understanding** yang Anda sebutkan. Hal ini akan meningkatkan **keterlibatan pengguna**, membantu pengguna **menemukan game baru**, dan **memperpanjang waktu yang dihabiskan di platform**, yang semuanya berkontribusi pada **tujuan bisnis** yang lebih luas.
+3. **Meningkatkan Waktu yang Dihabiskan di Platform**:
+    - Dengan memberikan game yang relevan berdasarkan kesamaan konten, pengguna lebih mungkin untuk **menghabiskan lebih banyak waktu** di platform. Ketika pengguna menemukan game baru yang menarik berdasarkan rekomendasi, mereka akan lebih terlibat dan tertarik untuk mencoba lebih banyak game yang sesuai dengan preferensi mereka. Hal ini secara langsung dapat **meningkatkan retensi pengguna** dan **memperpanjang waktu interaksi dengan platform**.
+
+4. **Meningkatkan Loyalitas Pengguna dan Pendapatan**:
+    - **CBF** dapat memperbaiki **loyalitas pelanggan** dan meningkatkan **customer lifetime value (CLTV)** dengan memberikan rekomendasi yang sesuai dengan keinginan pengguna. Dengan demikian, platform dapat menciptakan pengalaman yang lebih memuaskan bagi pengguna, mendorong mereka untuk kembali dan menjelajahi lebih banyak game, serta meningkatkan peluang untuk monetisasi melalui model **freemium** atau **berlangganan berbayar**.
+
+
 ### Evaluasi Model Collaborative Filtering (CF)
 
 Pada bagian ini, kita akan mengevaluasi kinerja model **Collaborative Filtering (CF)** yang dibangun menggunakan **embedding** untuk pengguna dan game serta **dot product** untuk menghitung interaksi antar keduanya. Evaluasi dilakukan menggunakan metrik **MSE**, **MAE**, dan **RMSE** untuk memastikan bahwa model memberikan rekomendasi yang akurat dan relevan berdasarkan data yang ada.
 
-1. **Mean Squared Error (MSE)**
+
+**1. Mean Squared Error (MSE)**
 
 **Formula:**
-\[
+
+$$
 MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
-\]
-- \(y_i\): Nilai rating asli (ground truth).
-- \(\hat{y}_i\): Nilai rating yang diprediksi oleh model.
-- \(n\): Jumlah data yang diuji.
+$$
 
-**Penjelasan**: MSE mengukur rata-rata kuadrat perbedaan antara nilai yang diprediksi oleh model dan nilai asli. Semakin kecil nilai MSE, semakin baik model dalam memprediksi rating yang relevan dan sesuai dengan preferensi pengguna.
+**Penjelasan**: 
+MSE mengukur rata-rata kuadrat perbedaan antara nilai yang diprediksi oleh model dan nilai asli. Semakin kecil nilai MSE, semakin baik model dalam memprediksi rating yang relevan dan sesuai dengan preferensi pengguna.
 
-2. **Mean Absolute Error (MAE)**
+---
+
+**2. Mean Absolute Error (MAE)**
 
 **Formula:**
-\[
+
+$$
 MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
-\]
-- \(y_i\): Nilai rating asli (ground truth).
-- \(\hat{y}_i\): Nilai rating yang diprediksi oleh model.
-- \(n\): Jumlah data yang diuji.
+$$
 
-**Penjelasan**: MAE mengukur rata-rata perbedaan absolut antara nilai yang diprediksi oleh model dan nilai asli. Nilai MAE yang lebih kecil menunjukkan bahwa model lebih baik dalam memberikan prediksi yang sesuai.
+**Penjelasan**: 
+MAE mengukur rata-rata perbedaan absolut antara nilai yang diprediksi oleh model dan nilai asli. Nilai MAE yang lebih kecil menunjukkan bahwa model lebih baik dalam memberikan prediksi yang sesuai.
 
-3. **Root Mean Squared Error (RMSE)**
+---
+
+**3. Root Mean Squared Error (RMSE)**
 
 **Formula:**
-\[
+
+$$
 RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
-\]
-**Penjelasan**: RMSE memberikan gambaran tentang seberapa besar perbedaan rata-rata antara rating yang diprediksi dan rating yang sebenarnya, dengan memperhitungkan besar kecilnya kesalahan. RMSE lebih sensitif terhadap perbedaan besar, sehingga memberikan penalti lebih besar untuk prediksi yang jauh dari nilai asli.
+$$
+
+
+
+**Penjelasan**: 
+RMSE memberikan gambaran tentang seberapa besar perbedaan rata-rata antara rating yang diprediksi dan rating yang sebenarnya, dengan memperhitungkan besar kecilnya kesalahan. RMSE lebih sensitif terhadap perbedaan besar, sehingga memberikan penalti lebih besar untuk prediksi yang jauh dari nilai asli.
 
 #### Hasil Evaluasi Model
 
